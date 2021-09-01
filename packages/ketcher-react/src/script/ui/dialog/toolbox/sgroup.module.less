@@ -14,10 +14,48 @@
  * limitations under the License.
  ***************************************************************************/
 
-.fieldset {
-  table + & {
+.sgroup {
+  min-width: 20em;
+  label {
+    display: block;
+    text-align: right;
+    input,
+    select {
+      width: 10em;
+    }
+    &:hover::after {
+      margin: 1px 0 0 3px;
+    }
+  }
+  fieldset {
     border: 0;
-    padding: 0.5em;
-    margin: 0.5em 0 0 1.5em;
+    padding: 0;
+  }
+  .data {
+    label {
+      text-align: left;
+      fieldset {
+        label {
+          margin: 0.4em;
+          display: inline-block;
+        }
+        input[type='radio'] {
+          width: auto;
+        }
+      }
+    }
+    textarea,
+    select[name='fieldValue'] {
+      display: block;
+      width: 19em;
+      height: 12em;
+      overflow: auto;
+    }
+    input[type='text'],
+    select[name='fieldName'] {
+      width: 19em;
+      display: block;
+      margin-bottom: 0;
+    }
   }
 }
