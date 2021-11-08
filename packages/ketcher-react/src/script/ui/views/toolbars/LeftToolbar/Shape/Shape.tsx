@@ -37,9 +37,13 @@ interface ShapeCallProps extends ToolbarGroupItemCallProps {}
 type Props = ShapeProps & ShapeCallProps
 
 const Shape = (props: Props) => {
+<<<<<<< HEAD
   return (
     <ToolbarGroupItem id="shape-ellipse" options={shapeOptions} {...props} />
   )
+=======
+  return <ToolbarGroupItem id="shapes" options={shapeOptions} {...props} />
+>>>>>>> f020fdd2 (#862 add possibility to hide controls by query parameter and fixed the ability to hide groups for transforms, bonds (#884))
 }
 
 export type { ShapeProps, ShapeCallProps }

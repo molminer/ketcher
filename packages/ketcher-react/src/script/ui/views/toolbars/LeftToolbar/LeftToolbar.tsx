@@ -69,6 +69,7 @@ const LeftToolbar = (props: Props) => {
   const Item = ({ id, options }: ItemProps) =>
     ToolbarGroupItem({ id, options, ...rest })
 
+<<<<<<< HEAD
   return (
     <div className={clsx(classes.root, className)} ref={ref}>
       <Group>
@@ -105,6 +106,119 @@ const LeftToolbar = (props: Props) => {
       <Group>
         <Item id="text" />
       </Group>
+=======
+  const scrollUp = () => {
+    scrollRef.current.scrollTop -= sizeRef.current.offsetHeight
+  }
+
+  const scrollDown = () => {
+    scrollRef.current.scrollTop += sizeRef.current.offsetHeight
+  }
+
+  const status = rest.status
+
+  type GroupItem = ItemProps
+
+  const Group: FC<{ items?: GroupItem[]; className?: string }> = ({
+    items,
+    className
+  }) => {
+    const visibleItems: GroupItem[] = []
+    if (items) {
+      items.forEach(item => {
+        let visible = true
+        if (status[item.id]?.hidden) {
+          visible = false
+        } else if (item.options?.every(option => status[option.id]?.hidden)) {
+          visible = false
+        }
+        if (visible) visibleItems.push(item)
+      })
+    }
+    return visibleItems.length ? (
+      <div className={clsx(classes.group, className)}>
+        {visibleItems.map(item => {
+          switch (item.id) {
+            case 'bond-common':
+              return <Bond {...rest} height={height} key={item.id} />
+            case 'transform-rotate':
+              return <Transform {...rest} height={height} key={item.id} />
+            case 'rgroup':
+              return <RGroup {...rest} key={item.id} />
+            case 'shapes':
+              return <Shape {...rest} key={item.id} />
+            default:
+              return <Item id={item.id} options={item.options} key={item.id} />
+          }
+        })}
+      </div>
+    ) : null
+  }
+
+  return (
+    <div className={clsx(classes.root, className)} ref={ref}>
+      <div className={classes.buttons} ref={scrollRef}>
+        <div className={classes.listener} ref={startRef}>
+          <Group
+            items={[{ id: 'select', options: selectOptions }, { id: 'erase' }]}
+          />
+        </div>
+
+        <Group
+          items={[
+            {
+              id: 'bonds',
+              options: [
+                ...bondCommon,
+                ...bondQuery,
+                ...bondSpecial,
+                ...bondStereo
+              ]
+            },
+            { id: 'chain' }
+          ]}
+        />
+
+        <Group items={[{ id: 'charge-plus' }, { id: 'charge-minus' }]} />
+
+        <Group
+          items={[
+            {
+              id: 'transforms',
+              options: transformOptions
+            }
+          ]}
+        />
+
+        <Group items={[{ id: 'sgroup' }, { id: 'sgroup-data' }]} />
+
+        <Group
+          items={[
+            { id: 'reaction-plus' },
+            { id: 'reaction-arrows', options: arrowsOptions },
+            {
+              id: 'reaction-mapping-tools',
+              options: mappingOptions
+            }
+          ]}
+        />
+        <div className={classes.listener} ref={sizeRef}>
+          <Group items={[{ id: 'rgroup', options: rGroupOptions }]} />
+        </div>
+
+        <Group items={[{ id: 'shapes', options: shapeOptions }]} />
+
+        <div ref={endRef}>
+          <Group items={[{ id: 'text' }]} />
+        </div>
+      </div>
+      <ArrowScroll
+        startInView={startInView}
+        endInView={endInView}
+        scrollUp={scrollUp}
+        scrollDown={scrollDown}
+      />
+>>>>>>> f020fdd2 (#862 add possibility to hide controls by query parameter and fixed the ability to hide groups for transforms, bonds (#884))
     </div>
   )
 }

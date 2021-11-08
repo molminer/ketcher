@@ -1,16 +1,25 @@
 import 'miew/dist/Miew.min.css'
 import 'ketcher-react/dist/index.css'
 
-import {Input} from 'antd'
-import { UserOutlined } from '@ant-design/icons'
+import { Ketcher, RemoteStructServiceProvider } from 'ketcher-core'
 
-// @ts-ignore
-import { Editor } from 'ketcher-react'
+import { Editor, ButtonsConfig } from 'ketcher-react'
 // @ts-ignore
 import Miew from 'miew'
-import React from 'react'
-// @ts-ignore
-import { RemoteStructServiceProvider } from 'ketcher-core'
+
+const getHiddenButtonsConfig = (): ButtonsConfig => {
+  const searchParams = new URLSearchParams(window.location.search)
+  const hiddenButtons = searchParams.get('hiddenControls')
+
+  if (!hiddenButtons) return {}
+
+  return hiddenButtons.split(',').reduce((acc, button) => {
+    if (button) acc[button] = { hidden: true }
+
+    return acc
+  }, {})
+}
+
 ;(global as any).Miew = Miew
 
 let structServiceProvider: any = new RemoteStructServiceProvider(
@@ -22,12 +31,15 @@ if (process.env.MODE === 'standalone') {
 }
 
 const App = () => {
+  const hiddenButtonsConfig = getHiddenButtonsConfig()
+
   return (
     <>
     <br/>
     <span>.....<Input prefix={<UserOutlined />}></Input></span>
     <Editor
       staticResourcesUrl={process.env.PUBLIC_URL}
+      buttons={hiddenButtonsConfig}
       structServiceProvider={structServiceProvider}
       onInit={(ketcher) => {
         var mol = [
