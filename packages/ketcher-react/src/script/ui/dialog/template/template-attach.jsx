@@ -21,7 +21,7 @@ import Input from '../../component/form/input'
 import { StructEditor, Dialog } from '../../views/components'
 import { storage } from '../../storage-ext'
 
-import { initAttach, setAttachPoints, setTmplName } from '../../state/templates'
+// import { initAttach, setAttachPoints, setTmplName } from '../../state/templates'
 import classes from './template-lib.module.less'
 
 const EDITOR_STYLES = {
