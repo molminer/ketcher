@@ -14,40 +14,54 @@
  * limitations under the License.
  ***************************************************************************/
 
-import React, { FC } from 'react'
+ import React, { FC, MutableRefObject, useRef } from 'react'
 import {
   ToolbarGroupItem,
   ToolbarGroupItemCallProps,
   ToolbarGroupItemProps
 } from '../ToolbarGroupItem'
 import { ToolbarItem, ToolbarItemVariant } from '../toolbar.types'
+import {
+  arrowsOptions,
+  bondCommon,
+  bondQuery,
+  bondSpecial,
+  bondStereo,
+  mappingOptions,
+  rGroupOptions,
+  selectOptions,
+  shapeOptions,
+  transformOptions
+} from './leftToolbarOptions'
 
+import { ArrowScroll } from '../ArrowScroll'
 import { Bond } from './Bond'
 import { RGroup } from './RGroup'
 import { Shape } from './Shape'
 import { Transform } from './Transform'
 import classes from './LeftToolbar.module.less'
 import clsx from 'clsx'
-import { makeItems } from '../ToolbarGroupItem/utils'
+// import { makeItems } from '../ToolbarGroupItem/utils'
+import { useInView } from 'react-intersection-observer'
 import { useResizeObserver } from '../../../../../hooks'
 
-const Group: FC<{ className?: string }> = ({ children, className }) => (
-  <div className={clsx(classes.group, className)}>{children}</div>
-)
+// const Group: FC<{ className?: string }> = ({ children, className }) => (
+//   <div className={clsx(classes.group, className)}>{children}</div>
+// )
 
-const selectOptions: ToolbarItem[] = makeItems([
-  'select-lasso',
-  'select-rectangle',
-  'select-fragment'
-])
-const reactionOptions: ToolbarItem[] = makeItems([
-  'reaction-arrow',
-  'reaction-arrow-equilibrium',
-  'reaction-plus',
-  'reaction-automap',
-  'reaction-map',
-  'reaction-unmap'
-])
+// const selectOptions: ToolbarItem[] = makeItems([
+//   'select-lasso',
+//   'select-rectangle',
+//   'select-fragment'
+// ])
+// const reactionOptions: ToolbarItem[] = makeItems([
+//   'reaction-arrow',
+//   'reaction-arrow-equilibrium',
+//   'reaction-plus',
+//   'reaction-automap',
+//   'reaction-map',
+//   'reaction-unmap'
+// ])
 
 interface LeftToolbarProps
   extends Omit<ToolbarGroupItemProps, 'id' | 'options'> {
@@ -61,6 +75,10 @@ type Props = LeftToolbarProps & LeftToolbarCallProps
 const LeftToolbar = (props: Props) => {
   const { className, ...rest } = props
   const { ref, height } = useResizeObserver<HTMLDivElement>()
+  const scrollRef = useRef() as MutableRefObject<HTMLDivElement>
+  const [startRef, startInView] = useInView({ threshold: 0.8 })
+  const [endRef, endInView] = useInView({ threshold: 0.8 })
+  const sizeRef = useRef() as MutableRefObject<HTMLDivElement>
 
   type ItemProps = {
     id: ToolbarItemVariant
@@ -69,44 +87,6 @@ const LeftToolbar = (props: Props) => {
   const Item = ({ id, options }: ItemProps) =>
     ToolbarGroupItem({ id, options, ...rest })
 
-<<<<<<< HEAD
-  return (
-    <div className={clsx(classes.root, className)} ref={ref}>
-      <Group>
-        <Item id="select" options={selectOptions} />
-        <Item id="erase" />
-      </Group>
-
-      <Group>
-        <Bond {...rest} height={height} />
-        <Item id="chain" />
-      </Group>
-
-      <Group>
-        <Item id="charge-plus" />
-        <Item id="charge-minus" />
-      </Group>
-
-      <Group>
-        <Transform {...rest} height={height} />
-      </Group>
-      <Group>
-        <Item id="sgroup" />
-        <Item id="sgroup-data" />
-      </Group>
-      <Group>
-        <Item id="reaction" options={reactionOptions} />
-      </Group>
-      <Group>
-        <RGroup {...rest} />
-      </Group>
-      <Group>
-        <Shape {...rest} />
-      </Group>
-      <Group>
-        <Item id="text" />
-      </Group>
-=======
   const scrollUp = () => {
     scrollRef.current.scrollTop -= sizeRef.current.offsetHeight
   }
@@ -195,7 +175,7 @@ const LeftToolbar = (props: Props) => {
         <Group
           items={[
             { id: 'reaction-plus' },
-            { id: 'reaction-arrows', options: arrowsOptions },
+            { id: 'arrows', options: arrowsOptions },
             {
               id: 'reaction-mapping-tools',
               options: mappingOptions
@@ -218,7 +198,6 @@ const LeftToolbar = (props: Props) => {
         scrollUp={scrollUp}
         scrollDown={scrollDown}
       />
->>>>>>> f020fdd2 (#862 add possibility to hide controls by query parameter and fixed the ability to hide groups for transforms, bonds (#884))
     </div>
   )
 }

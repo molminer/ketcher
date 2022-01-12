@@ -17,6 +17,7 @@ import clsx from 'clsx'
 import React, { FC } from 'react'
 
 import { useResizeObserver } from '../../../../../hooks'
+import { makeItems } from '../ToolbarGroupItem/utils'
 import { mediaSizes } from '../mediaSizes'
 import {
   ToolbarGroupItem,
@@ -30,6 +31,13 @@ import { ZoomList } from './ZoomList'
 const Group: FC<{ className?: string }> = ({ children, className }) => (
   <div className={clsx(classes.group, className)}>{children}</div>
 )
+
+const copyOptions: ToolbarItem[] = makeItems([
+  'copy',
+  'copy-mol',
+  'copy-ket',
+  'copy-image'
+])
 
 interface TopToolbarProps
   extends Omit<ToolbarGroupItemProps, 'id' | 'options'> {
@@ -49,9 +57,10 @@ const TopToolbar = (props: Props) => {
     id: ToolbarItemVariant
     options?: ToolbarItem[]
     className?: string
+    vertical?: boolean
   }
-  const Item = ({ id, options, className }: ItemProps) =>
-    ToolbarGroupItem({ id, options, className, ...rest })
+  const Item = ({ id, options, className, vertical }: ItemProps) =>
+    ToolbarGroupItem({ id, options, className, vertical, ...rest })
 
   return (
     <div

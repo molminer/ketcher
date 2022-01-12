@@ -133,15 +133,11 @@ const toolActions = {
   'rgroup-attpoints': {
     shortcut: 'Mod+r',
     title: 'Attachment Point Tool',
-<<<<<<< HEAD
-    action: { tool: 'apoint' }
-=======
     action: { tool: 'apoint' },
     hidden: options => isHidden(options, 'rgroup-attpoints')
   },
   shapes: {
     hidden: options => isHidden(options, 'shapes')
->>>>>>> f020fdd2 (#862 add possibility to hide controls by query parameter and fixed the ability to hide groups for transforms, bonds (#884))
   },
   'shape-ellipse': {
     title: 'Shape Ellipse',
@@ -157,15 +153,11 @@ const toolActions = {
   },
   text: {
     title: 'Add text',
-<<<<<<< HEAD
-    action: { tool: 'text' }
-=======
     action: { tool: 'text' },
     hidden: options => isHidden(options, 'text')
   },
   bonds: {
     hidden: options => isHidden(options, 'bonds')
->>>>>>> f020fdd2 (#862 add possibility to hide controls by query parameter and fixed the ability to hide groups for transforms, bonds (#884))
   }
 }
 

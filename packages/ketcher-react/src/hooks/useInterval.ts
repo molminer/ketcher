@@ -14,31 +14,25 @@
  * limitations under the License.
  ***************************************************************************/
 
-import {
-  ToolbarGroupItem,
-  ToolbarGroupItemCallProps,
-  ToolbarGroupItemProps
-} from '../../ToolbarGroupItem'
+import { useEffect, useRef } from 'react'
 
-import React from 'react'
-import { makeItems } from '../../ToolbarGroupItem/utils'
+export const useInterval = (callback: () => void, delay: number | null) => {
+  const savedCallback = useRef(callback)
 
-const shapeOptions = makeItems([
-  'shape-ellipse',
-  'shape-rectangle',
-  'shape-line'
-])
+  // Remember the latest callback if it changes.
+  useEffect(() => {
+    savedCallback.current = callback
+  }, [callback])
 
-interface ShapeProps extends Omit<ToolbarGroupItemProps, 'id' | 'options'> {
-  height?: number
+  // Set up the interval.
+  useEffect(() => {
+    // Don't schedule if no delay is specified.
+    if (delay === null) {
+      return
+    }
+
+    const id = setInterval(() => savedCallback.current(), delay)
+
+    return () => clearInterval(id)
+  }, [delay])
 }
-interface ShapeCallProps extends ToolbarGroupItemCallProps {}
-
-type Props = ShapeProps & ShapeCallProps
-
-const Shape = (props: Props) => {
-  return <ToolbarGroupItem id="shapes" options={shapeOptions} {...props} />
-}
-
-export type { ShapeProps, ShapeCallProps }
-export { Shape }

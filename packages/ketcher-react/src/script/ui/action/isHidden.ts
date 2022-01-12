@@ -14,31 +14,6 @@
  * limitations under the License.
  ***************************************************************************/
 
-import {
-  ToolbarGroupItem,
-  ToolbarGroupItemCallProps,
-  ToolbarGroupItemProps
-} from '../../ToolbarGroupItem'
-
-import React from 'react'
-import { makeItems } from '../../ToolbarGroupItem/utils'
-
-const shapeOptions = makeItems([
-  'shape-ellipse',
-  'shape-rectangle',
-  'shape-line'
-])
-
-interface ShapeProps extends Omit<ToolbarGroupItemProps, 'id' | 'options'> {
-  height?: number
+export default function isHidden(options: any, buttonName: string): boolean {
+  return Boolean(options.buttons?.[buttonName]?.hidden)
 }
-interface ShapeCallProps extends ToolbarGroupItemCallProps {}
-
-type Props = ShapeProps & ShapeCallProps
-
-const Shape = (props: Props) => {
-  return <ToolbarGroupItem id="shapes" options={shapeOptions} {...props} />
-}
-
-export type { ShapeProps, ShapeCallProps }
-export { Shape }

@@ -82,8 +82,6 @@ const config = {
   copy: {
     shortcut: 'Mod+c',
     title: 'Copy',
-<<<<<<< HEAD
-=======
     action: editor => {
       exec('copy') || dontClipMessage('Copy', editor.errorHandler) // eslint-disable-line no-unused-expressions
     },
@@ -111,7 +109,6 @@ const config = {
   'copy-ket': {
     shortcut: 'Mod+Shift+k',
     title: 'Copy as KET',
->>>>>>> f020fdd2 (#862 add possibility to hide controls by query parameter and fixed the ability to hide groups for transforms, bonds (#884))
     action: () => {
       exec('copy') || dontClipMessage('Copy') // eslint-disable-line no-unused-expressions
     },
